@@ -1,8 +1,13 @@
-# Learn Wuji in One Week — site v1
+# Learn Wuji in One Week
 
-A self-contained static preview of the course, built to the **"Wuji Final — Structure 3"** design handoff. No build step.
+A self-contained static site for the course, built to the **"Wuji Final — Structure 3"** design handoff. No build step.
 
-## Run it
+## Hosting
+- **Repo:** github.com/teleokinetic/oneweekwuji
+- **GitHub Pages:** deploy from branch `main`, root (`/`). Live at https://teleokinetic.github.io/oneweekwuji/
+- **Custom domain:** `oneweekwuji.com` (apex). Requires four GoDaddy `A` records → `185.199.108.153`, `.109.153`, `.110.153`, `.111.153`. Once DNS resolves, add a `CNAME` file containing `oneweekwuji.com`, set the custom domain in Pages, and enable enforced HTTPS.
+
+## Run it locally
 ```
 cd ~/Desktop/learn-wuji-site
 python3 -m http.server 8080
