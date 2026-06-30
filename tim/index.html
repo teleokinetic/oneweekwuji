@@ -9,20 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* Self-contained — tokens + components lifted from the course's styles.css
-       so this page never depends on the deployed site assets. */
+    /* Self-contained — tokens + the lesson/day-view chassis (two-column + accordion)
+       lifted from the course's styles.css so this page never depends on site assets. */
     :root{
       --clay:#B5613F; --clay-hover:#A4542F; --cocoa:#5C4634; --ink:#2A2520;
-      --sand:#F1E7D8; --paper:#FBF7EF; --hairline:#ECE3D3; --hairline-solid:#D8C9B3;
+      --sand:#F1E7D8; --paper:#FBF7EF; --hairline:#ECE3D3; --hairline-solid:#D8C9B3; --hairline-sand:#E3D3BA;
       --t-heading:#2A2520; --t-body:#3A352E; --t-body-2:#5A5249; --t-secondary:#6A6056;
-      --t-muted:#8A8076; --t-muted-2:#9C7A4E; --t-faint:#B3A48D;
+      --t-muted:#8A8076; --t-muted-2:#9C7A4E; --t-faint:#B3A48D; --t-faint-2:#BBAE9B; --t-faint-3:#C2B5A1;
       --p-muted:#C69A78; --p-track:#4A3F35; --p-title:#F6ECDC; --eyebrow:#A89A86;
       --serif:'Spectral',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif; --mono:'Spline Sans Mono',ui-monospace,monospace;
       --sh-card:0 6px 26px rgba(60,45,25,.13); --sh-play:0 4px 13px rgba(181,97,63,.40);
     }
     *{box-sizing:border-box;}
-    html,body{margin:0;background:#efe6d6;color:var(--t-body);font-family:var(--sans);
-      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+    html,body{margin:0;background:#efe6d6;color:var(--t-body);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
     .screen{display:block;background:var(--paper);min-height:100vh;}
     a{color:inherit;text-decoration:none;} button{font-family:inherit;cursor:pointer;border:none;background:none;}
     em{font-style:italic;} strong{font-weight:600;}
@@ -30,31 +29,21 @@
     .eyebrow{font:600 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--eyebrow);}
     .eyebrow.clay{color:var(--clay);letter-spacing:.2em;}
 
-    /* desktop top bar */
-    .topbar{display:none;align-items:center;justify-content:space-between;
-      padding:28px 56px;border-bottom:1px solid var(--hairline);}
+    .topbar{display:none;align-items:center;justify-content:space-between;padding:28px 56px;border-bottom:1px solid var(--hairline);}
     .topbar .wordmark{letter-spacing:.22em;color:var(--clay);font:600 12px/1 var(--sans);text-transform:uppercase;}
     .topbar .dayof{font:500 13px/1 var(--sans);color:var(--eyebrow);}
 
-    /* page layer */
-    .tim-wrap{max-width:720px;margin:0 auto;padding:30px 26px 46px;}
-    .tim-h1{font:600 30px/1.12 var(--serif);color:var(--t-heading);margin:12px 0 0;}
-    .tim-oneliner{font:400 16px/1.55 var(--serif);font-style:italic;color:var(--t-secondary);margin:10px 0 0;}
-    .tim-prose p{font:400 16px/1.75 var(--serif);color:var(--t-body);margin:15px 0 0;}
-    .tim-prose ul{margin:13px 0 0;padding-left:20px;}
-    .tim-prose li{font:400 16px/1.7 var(--serif);color:var(--t-body);margin:8px 0;}
-    .section-h{font:600 19px/1.3 var(--serif);color:var(--t-heading);margin:0;}
-    .tim-hr{border:none;border-top:1px solid var(--hairline);margin:32px 0 0;}
-    .tim-practice{margin:30px 0 0;}
-    .pr-title{font:600 19px/1.3 var(--serif);color:var(--t-heading);margin:6px 0 0;}
-    .pr-oneliner{font:400 14.5px/1.6 var(--serif);font-style:italic;color:var(--t-secondary);margin:7px 0 0;}
-    .tim-closing{margin:34px 0 0;padding:18px 20px;background:var(--sand);border-radius:14px;
-      font:400 15px/1.65 var(--serif);color:var(--t-body-2);}
+    /* left column */
+    .lesson-head{padding:20px 26px 0;}
+    .lesson-h1{font:600 29px/1.12 var(--serif);margin:11px 0 0;color:var(--t-heading);}
+    .lesson-oneliner{font:400 15px/1.55 var(--serif);font-style:italic;color:var(--t-secondary);margin:9px 0 0;}
+    .left-note{margin:16px 26px 0;}
+    .left-note p{font:400 15px/1.7 var(--serif);color:var(--t-body-2);margin:0 0 11px;}
+    .left-note p:last-child{margin-bottom:0;}
 
     /* player (verbatim from styles.css) */
-    .player{margin:15px 0 0;padding:15px 18px;background:var(--ink);border-radius:16px;display:flex;align-items:center;gap:14px;}
-    .player .playbtn{width:50px;height:50px;border-radius:50%;background:var(--clay);
-      display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:var(--sh-play);}
+    .player{margin:22px 26px 0;padding:15px 18px;background:var(--ink);border-radius:16px;display:flex;align-items:center;gap:14px;}
+    .player .playbtn{width:50px;height:50px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:var(--sh-play);}
     .player .playbtn:hover{background:var(--clay-hover);}
     .player .bars{display:flex;gap:4px;}
     .player .bars i{width:4.5px;height:18px;background:#fff;border-radius:2px;display:block;}
@@ -69,16 +58,68 @@
     .player .ptime{font:500 10px/1 var(--mono);color:var(--p-muted);flex:0 0 auto;}
     .player .ptrack.live{cursor:pointer;height:5px;}
     .player .ptrack.live .knob{width:11px;height:11px;}
+    .step-caption{display:none;}
+
+    /* right column — accordion (verbatim structure from styles.css) */
+    .session-eyebrow{margin:28px 26px 4px;}
+    .accordion{padding:0 26px 36px;}
+    .seg{display:flex;align-items:center;gap:14px;padding:17px 0;border-top:1px solid var(--hairline);width:100%;text-align:left;cursor:pointer;}
+    .seg:first-child{border-top:none;}
+    .seg .scircle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font:600 13px/1 var(--sans);}
+    .seg .stitle{flex:1;font:500 15px/1.3 var(--serif);color:var(--t-body-2);}
+    .seg .stitle .sub{font:400 12px/1 var(--sans);color:var(--t-faint-2);}
+    .seg .sdur{font:500 11px/1 var(--mono);color:var(--t-faint-2);}
+    .seg .schev{font:400 13px/1 var(--sans);color:var(--t-faint-3);margin-left:2px;}
+    .seg .scircle{border:1px solid var(--hairline-solid);}
+    .seg .scircle .tri{width:0;height:0;border-left:8px solid var(--t-faint);border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px;}
+    .seg .scircle .dot{width:7px;height:7px;border-radius:50%;background:var(--t-faint);display:block;}
+    .seg:hover .stitle{color:var(--clay);}
+
+    .seg-open{margin-top:3px;background:var(--sand);border-radius:15px;padding:17px 19px;}
+    .seg-open .open-head{display:flex;align-items:center;gap:13px;cursor:pointer;}
+    .seg-open .open-head .scircle{width:26px;height:26px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+    .seg-open .open-head .scircle .head-dot{width:8px;height:8px;border-radius:50%;background:#fff;display:block;}
+    .seg-open .open-head .scircle .bars{display:flex;gap:2.5px;}
+    .seg-open .open-head .scircle .bars i{width:2.5px;height:9px;background:#fff;border-radius:1px;display:block;}
+    .seg-open .open-head .stitle{flex:1;font:600 16px/1.3 var(--serif);color:var(--t-heading);}
+    .seg-open .open-head .sdur{font:500 11px/1 var(--mono);color:var(--t-muted-2);}
+    .seg-open .open-head .schev{color:var(--t-muted-2);margin-left:5px;}
+    .seg-body{margin-top:15px;padding-top:15px;border-top:1px solid var(--hairline-sand);}
+    .seg-body p{font:400 16px/1.8 var(--serif);color:var(--t-body);margin:0 0 13px;}
+    .seg-body p:last-child{margin-bottom:0;}
+    .seg-body ul.acc-list{margin:0 0 13px;padding-left:20px;}
+    .seg-body .acc-list li{font:400 15.5px/1.7 var(--serif);color:var(--t-body);margin:7px 0;}
+    .seg-body .play-hint{font:500 12.5px/1.4 var(--sans);color:var(--t-muted-2);margin:11px 0 0;}
+
+    .lesson-closing{margin:22px 26px 40px;padding:18px 20px;background:var(--sand);border-radius:14px;font:400 15px/1.65 var(--serif);color:var(--t-body-2);}
 
     @media (min-width:720px){
       body{padding:40px 0;}
       .screen{max-width:1100px;margin:0 auto;min-height:auto;border-radius:18px;box-shadow:var(--sh-card);overflow:hidden;}
       .topbar{display:flex;}
-      .tim-wrap{padding:56px;}
-      .tim-h1{font-size:42px;line-height:1.06;}
-      .tim-oneliner{font-size:17px;}
-      .tim-prose p,.tim-prose li{font-size:17px;}
-      .section-h,.pr-title{font-size:21px;}
+      .lesson-body{display:flex;gap:72px;padding:56px;align-items:flex-start;}
+      .lesson-left{width:400px;flex:0 0 auto;position:sticky;top:40px;}
+      .lesson-left .lesson-head{padding:0;}
+      .lesson-left .lesson-h1{font:600 44px/1.06 var(--serif);margin:14px 0 0;}
+      .lesson-left .lesson-oneliner{font-size:17px;line-height:1.6;margin:14px 0 0;}
+      .lesson-left .left-note{margin:18px 0 0;}
+      .lesson-left .player{margin:28px 0 0;padding:18px 20px;}
+      .lesson-left .player .playbtn{width:54px;height:54px;}
+      .lesson-left .player .bars i{width:5px;height:20px;}
+      .step-caption{display:block;margin-top:16px;font:500 13px/1.5 var(--sans);color:var(--t-muted-2);}
+      .lesson-right{flex:1;max-width:660px;}
+      .lesson-right .session-eyebrow{margin:0 0 4px;}
+      .lesson-right .accordion{padding:0;}
+      .lesson-right .seg{padding:22px 0;}
+      .lesson-right .seg .scircle{width:28px;height:28px;}
+      .lesson-right .seg .stitle{font-size:17px;}
+      .lesson-right .seg .sdur{font-size:12px;}
+      .lesson-right .seg-open{padding:24px 28px;border-radius:16px;}
+      .lesson-right .seg-open .open-head .scircle{width:28px;height:28px;}
+      .lesson-right .seg-open .open-head .stitle{font-size:19px;}
+      .lesson-right .seg-body{margin-top:18px;padding-top:18px;}
+      .lesson-right .seg-body p{font-size:17px;line-height:1.85;margin-bottom:14px;}
+      .lesson-right .lesson-closing{margin:24px 0 0;}
     }
   </style>
 </head>
@@ -89,67 +130,40 @@
       <div class="dayof">For Tim</div>
     </div>
 
-    <div class="tim-wrap">
-      <div class="eyebrow clay">For Tim</div>
-      <h1 class="tim-h1">Feet, Calves &amp; Standing</h1>
-      <p class="tim-oneliner">A standing practice, a foot exploration, and a way to use them.</p>
+    <div class="lesson-body">
+      <!-- LEFT: framing + hero player (swaps) -->
+      <div class="lesson-left">
+        <div class="lesson-head">
+          <div class="eyebrow clay">For Tim</div>
+          <h1 class="lesson-h1">Feet, Calves &amp; Standing</h1>
+          <p class="lesson-oneliner">A standing practice, a foot exploration, and a way to use them.</p>
+        </div>
 
-      <div class="tim-prose">
-        <p>Hey Tim, in our session on Tuesday your calves were really grumpy. I think we've talked about it before, but I know that one well. As recently as 2022 I couldn't do standing practice for more than ~3 min because of it.</p>
-        <p>What turned it around for me was learning to coordinate the <em>intrinsic</em> muscles of the foot — the small muscles inside the foot itself — and to differentiate them from the <em>extrinsic</em> muscles (the bigger ones running down from the lower leg). TLDR When the foot does its own job, the calves stop overworking to hold you up. The exploration below is in a Feldenkrais-style, and it's a big part of how I got my standing back.</p>
-      </div>
-
-      <hr class="tim-hr">
-
-      <div class="tim-prose" style="margin-top:30px">
-        <h2 class="section-h">How to use this</h2>
-        <p>If you want to build real capacity in standing, here's what I'd suggest:</p>
-        <ul>
-          <li>Set aside about <strong>10 minutes a day</strong> for standing practice — the guided standing audio below, or self-guided. Take frequent breaks to let the activated muscles recover :)</li>
-          <li><strong>Twice a week,</strong> swap the standing out for the foot exploration instead.</li>
-          <li>if you're feeling ambitious, <strong>Stack them:</strong> do the ~12½-minute foot exploration first, then stand afterward. Stacking them would likely make the benefit most obvious.</li>
-        </ul>
-        <p>Then let me know how your calves feel.</p>
-      </div>
-
-      <div class="tim-practice">
-        <div class="eyebrow clay">Practice 1 · Daily standing</div>
-        <div class="pr-title">The Whole Map</div>
-        <p class="pr-oneliner">11:55 · a guided head-to-toe pass through the standing practice. This is your daily ten-ish minutes.</p>
-        <div class="player">
+        <div class="player" id="hero">
           <audio class="ja" src="../audio/tim-day1-standing.mp3" preload="metadata"></audio>
           <button class="playbtn" data-play aria-label="Play"><div class="triangle"></div></button>
           <div class="meta">
-            <div class="now">Guided audio · standing</div>
-            <div class="track-title">Day 1 — The Whole Map</div>
+            <div class="now" id="heroNow">Daily standing</div>
+            <div class="track-title" id="heroTitle">The Whole Map</div>
             <div class="scrub">
               <div class="ptrack live"><div class="pfill"></div><div class="knob"></div></div>
-              <span class="ptime">0:00 / 11:55</span>
+              <span class="ptime" id="heroTime">0:00 / 11:55</span>
             </div>
           </div>
         </div>
-      </div>
+        <div class="step-caption">Open a practice on the right to load it here.</div>
 
-      <div class="tim-practice">
-        <div class="eyebrow clay">Practice 2 · The swap-in</div>
-        <div class="pr-title">Foot Exploration</div>
-        <p class="pr-oneliner">12:29 · a slow, Feldenkrais-style exploration to wake up and coordinate the intrinsic muscles of the foot. Swap it in for standing twice a week — or stack it before standing.</p>
-        <div class="player">
-          <audio class="ja" src="../audio/tim-foot-exploration.m4a" preload="metadata"></audio>
-          <button class="playbtn" data-play aria-label="Play"><div class="triangle"></div></button>
-          <div class="meta">
-            <div class="now">Guided audio · foot exploration</div>
-            <div class="track-title">Foot Exploration</div>
-            <div class="scrub">
-              <div class="ptrack live"><div class="pfill"></div><div class="knob"></div></div>
-              <span class="ptime">0:00 / 12:29</span>
-            </div>
-          </div>
+        <div class="left-note">
+          <p>Hey Tim, in our session on Tuesday your calves were really grumpy. I think we've talked about it before, but I know that one well. As recently as 2022 I couldn't do standing practice for more than ~3 min because of it.</p>
+          <p>The biggest lever for me was learning to <strong>coordinate</strong> the <em>intrinsic</em> muscles of the foot (the small muscles inside the foot itself) and to <strong>differentiate</strong> them from the <em>extrinsic</em> muscles (the bigger ones running down from the lower leg). TLDR When the foot does its own job, the calves stop overworking to hold you up. The exploration below is in a Feldenkrais-style, which is what I found most helpful in untangling the intrinsic/extrinsic relationship.</p>
         </div>
       </div>
 
-      <div class="tim-closing">
-        Give it a week or so and tell me how your calves are doing — especially whether the standing discomfort shifts at all. We can adjust from there.
+      <!-- RIGHT: accordion -->
+      <div class="lesson-right">
+        <div class="eyebrow clay session-eyebrow">Your practice</div>
+        <div class="accordion" id="acc"></div>
+        <div class="lesson-closing">Give it a week or so and tell me how your calves are doing — especially whether the standing discomfort shifts at all. We can adjust from there.</div>
       </div>
     </div>
   </main>
@@ -158,49 +172,116 @@
     const fmtTime = (s) => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
     const PLAY = '<div class="triangle"></div>';
     const PAUSE = '<div class="bars"><i></i><i></i></div>';
-    let current = null;
 
-    document.querySelectorAll(".player").forEach((p) => {
-      const audio = p.querySelector("audio.ja");
-      const btn   = p.querySelector("[data-play]");
-      const fill  = p.querySelector(".pfill");
-      const knob  = p.querySelector(".knob");
-      const ptime = p.querySelector(".ptime");
-      const track = p.querySelector(".ptrack.live");
+    const SECTIONS = [
+      { kind:"note", stitle:"How to use this",
+        body:`<p>If you want to build real capacity in standing, here's what I'd suggest:</p>
+          <ul class="acc-list">
+            <li>Set aside about <strong>10 minutes a day</strong> for standing practice — the guided standing audio below, or self-guided. Take frequent breaks to let the activated muscles recover :)</li>
+            <li><strong>Twice a week,</strong> swap the standing out for the foot exploration instead.</li>
+            <li>if you're feeling ambitious, <strong>Stack them:</strong> do the ~12&frac12;-minute foot exploration first, then stand afterward. Stacking them would likely make the benefit most obvious.</li>
+          </ul>
+          <p>Then let me know how your calves feel.</p>` },
+      { kind:"audio", stitle:"Daily standing", sub:"The Whole Map", dur:"11:55",
+        src:"../audio/tim-day1-standing.mp3", heroNow:"Daily standing", heroTitle:"The Whole Map",
+        body:`<p>A guided head-to-toe pass through the standing practice. This is your daily ten-ish minutes.</p>
+          <p class="play-hint">▸ Cued up in the player — press play to begin.</p>` },
+      { kind:"audio", stitle:"Foot exploration", sub:"the swap-in", dur:"12:29",
+        src:"../audio/tim-foot-exploration.m4a", heroNow:"The swap-in", heroTitle:"Foot Exploration",
+        body:`<p>A slow, Feldenkrais-style exploration to wake up and coordinate the intrinsic muscles of the foot. Swap it in for standing twice a week — or stack it before standing.</p>
+          <p class="play-hint">▸ Cued up in the player — press play to begin.</p>` },
+    ];
 
-      const paint = () => {
-        const d = audio.duration || 0;
-        const pct = d ? (audio.currentTime / d) * 100 : 0;
-        fill.style.width = pct + "%";
-        knob.style.left  = pct + "%";
-        ptime.textContent = fmtTime(audio.currentTime) + " / " + fmtTime(d);
-      };
-      audio.addEventListener("loadedmetadata", paint);
-      audio.addEventListener("timeupdate", paint);
-      audio.addEventListener("ended", () => { btn.innerHTML = PLAY; current = null; });
-
-      btn.addEventListener("click", () => {
-        if (audio.paused) {
-          if (current && current !== audio) {
-            current.pause();
-            current.closest(".player").querySelector("[data-play]").innerHTML = PLAY;
-          }
-          audio.play();
-          btn.innerHTML = PAUSE;
-          current = audio;
-        } else {
-          audio.pause();
-          btn.innerHTML = PLAY;
-          current = null;
-        }
-      });
-
-      track.addEventListener("click", (e) => {
-        const r = track.getBoundingClientRect();
-        const ratio = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
-        if (audio.duration) audio.currentTime = ratio * audio.duration;
-      });
+    /* ---------- hero player (swaps track when a practice opens) ---------- */
+    const hero = {
+      audio: document.querySelector("#hero audio"),
+      btn:   document.querySelector("#hero [data-play]"),
+      now:   document.getElementById("heroNow"),
+      title: document.getElementById("heroTitle"),
+      fill:  document.querySelector("#hero .pfill"),
+      knob:  document.querySelector("#hero .knob"),
+      time:  document.getElementById("heroTime"),
+      track: document.querySelector("#hero .ptrack.live"),
+      dur:   "11:55",
+    };
+    const paintHero = () => {
+      const d = hero.audio.duration || 0;
+      const pct = d ? (hero.audio.currentTime / d) * 100 : 0;
+      hero.fill.style.width = pct + "%";
+      hero.knob.style.left  = pct + "%";
+      hero.time.textContent = fmtTime(hero.audio.currentTime) + " / " + (d ? fmtTime(d) : hero.dur);
+    };
+    hero.audio.addEventListener("loadedmetadata", paintHero);
+    hero.audio.addEventListener("timeupdate", paintHero);
+    hero.audio.addEventListener("ended", () => { hero.btn.innerHTML = PLAY; });
+    hero.btn.addEventListener("click", () => {
+      if (hero.audio.paused) { hero.audio.play(); hero.btn.innerHTML = PAUSE; }
+      else { hero.audio.pause(); hero.btn.innerHTML = PLAY; }
     });
+    hero.track.addEventListener("click", (e) => {
+      const r = hero.track.getBoundingClientRect();
+      const ratio = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      if (hero.audio.duration) hero.audio.currentTime = ratio * hero.audio.duration;
+    });
+    function loadHero(sec) {
+      if (hero.audio.getAttribute("src") === sec.src) return; // already loaded — don't interrupt
+      hero.audio.pause();
+      hero.btn.innerHTML = PLAY;
+      hero.audio.src = sec.src;
+      hero.audio.load();
+      hero.now.textContent = sec.heroNow;
+      hero.title.textContent = sec.heroTitle;
+      hero.dur = sec.dur;
+      hero.fill.style.width = "0%"; hero.knob.style.left = "0%";
+      hero.time.textContent = "0:00 / " + sec.dur;
+    }
+
+    /* ---------- accordion (one open at a time) ---------- */
+    const acc = document.getElementById("acc");
+    let openIdx = 0;
+    function circleCollapsed(sec){
+      return sec.kind === "audio"
+        ? '<div class="scircle"><span class="tri"></span></div>'
+        : '<div class="scircle"><span class="dot"></span></div>';
+    }
+    function circleOpen(sec){
+      return sec.kind === "audio"
+        ? '<div class="scircle"><div class="bars"><i></i><i></i></div></div>'
+        : '<div class="scircle"><span class="head-dot"></span></div>';
+    }
+    function render(){
+      acc.innerHTML = SECTIONS.map((sec, i) => {
+        const dur = sec.dur || "";
+        if (i === openIdx) {
+          const subOpen = sec.sub ? ` <span style="font-weight:400;color:var(--t-muted-2)">· ${sec.sub}</span>` : "";
+          return `<div class="seg-open">
+            <div class="open-head" data-seg="${i}">
+              ${circleOpen(sec)}
+              <div class="stitle">${sec.stitle}${subOpen}</div>
+              <div class="sdur">${dur}</div>
+              <div class="schev">▾</div>
+            </div>
+            <div class="seg-body">${sec.body}</div>
+          </div>`;
+        }
+        const sub = sec.sub ? ` <span class="sub">· ${sec.sub}</span>` : "";
+        return `<button class="seg" data-seg="${i}">
+          ${circleCollapsed(sec)}
+          <div class="stitle">${sec.stitle}${sub}</div>
+          <div class="sdur">${dur}</div>
+          <div class="schev">▸</div>
+        </button>`;
+      }).join("");
+      acc.querySelectorAll("[data-seg]").forEach((el) =>
+        el.addEventListener("click", () => {
+          const i = +el.dataset.seg;
+          openIdx = i;
+          render();
+          if (SECTIONS[i].kind === "audio") loadHero(SECTIONS[i]);
+        })
+      );
+    }
+    render();
   </script>
 </body>
 </html>
