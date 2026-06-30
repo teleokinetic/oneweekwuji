@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>For Tim · Feet, Calves &amp; Standing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Self-contained — tokens + components lifted from the course's styles.css
+       so this page never depends on the deployed site assets. */
+    :root{
+      --clay:#B5613F; --clay-hover:#A4542F; --cocoa:#5C4634; --ink:#2A2520;
+      --sand:#F1E7D8; --paper:#FBF7EF; --hairline:#ECE3D3; --hairline-solid:#D8C9B3;
+      --t-heading:#2A2520; --t-body:#3A352E; --t-body-2:#5A5249; --t-secondary:#6A6056;
+      --t-muted:#8A8076; --t-muted-2:#9C7A4E; --t-faint:#B3A48D;
+      --p-muted:#C69A78; --p-track:#4A3F35; --p-title:#F6ECDC; --eyebrow:#A89A86;
+      --serif:'Spectral',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif; --mono:'Spline Sans Mono',ui-monospace,monospace;
+      --sh-card:0 6px 26px rgba(60,45,25,.13); --sh-play:0 4px 13px rgba(181,97,63,.40);
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;background:#efe6d6;color:var(--t-body);font-family:var(--sans);
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+    .screen{display:block;background:var(--paper);min-height:100vh;}
+    a{color:inherit;text-decoration:none;} button{font-family:inherit;cursor:pointer;border:none;background:none;}
+    em{font-style:italic;} strong{font-weight:600;}
+
+    .eyebrow{font:600 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--eyebrow);}
+    .eyebrow.clay{color:var(--clay);letter-spacing:.2em;}
+
+    /* desktop top bar */
+    .topbar{display:none;align-items:center;justify-content:space-between;
+      padding:28px 56px;border-bottom:1px solid var(--hairline);}
+    .topbar .wordmark{letter-spacing:.22em;color:var(--clay);font:600 12px/1 var(--sans);text-transform:uppercase;}
+    .topbar .dayof{font:500 13px/1 var(--sans);color:var(--eyebrow);}
+
+    /* page layer */
+    .tim-wrap{max-width:720px;margin:0 auto;padding:30px 26px 46px;}
+    .tim-h1{font:600 30px/1.12 var(--serif);color:var(--t-heading);margin:12px 0 0;}
+    .tim-oneliner{font:400 16px/1.55 var(--serif);font-style:italic;color:var(--t-secondary);margin:10px 0 0;}
+    .tim-prose p{font:400 16px/1.75 var(--serif);color:var(--t-body);margin:15px 0 0;}
+    .tim-prose ul{margin:13px 0 0;padding-left:20px;}
+    .tim-prose li{font:400 16px/1.7 var(--serif);color:var(--t-body);margin:8px 0;}
+    .section-h{font:600 19px/1.3 var(--serif);color:var(--t-heading);margin:0;}
+    .tim-hr{border:none;border-top:1px solid var(--hairline);margin:32px 0 0;}
+    .tim-practice{margin:30px 0 0;}
+    .pr-title{font:600 19px/1.3 var(--serif);color:var(--t-heading);margin:6px 0 0;}
+    .pr-oneliner{font:400 14.5px/1.6 var(--serif);font-style:italic;color:var(--t-secondary);margin:7px 0 0;}
+    .tim-closing{margin:34px 0 0;padding:18px 20px;background:var(--sand);border-radius:14px;
+      font:400 15px/1.65 var(--serif);color:var(--t-body-2);}
+
+    /* player (verbatim from styles.css) */
+    .player{margin:15px 0 0;padding:15px 18px;background:var(--ink);border-radius:16px;display:flex;align-items:center;gap:14px;}
+    .player .playbtn{width:50px;height:50px;border-radius:50%;background:var(--clay);
+      display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:var(--sh-play);}
+    .player .playbtn:hover{background:var(--clay-hover);}
+    .player .bars{display:flex;gap:4px;}
+    .player .bars i{width:4.5px;height:18px;background:#fff;border-radius:2px;display:block;}
+    .player .triangle{width:0;height:0;border-left:16px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px;}
+    .player .meta{flex:1;min-width:0;}
+    .player .now{font:600 10px/1 var(--sans);letter-spacing:.14em;color:var(--p-muted);margin-bottom:6px;text-transform:uppercase;}
+    .player .track-title{font:600 16px/1.2 var(--serif);color:var(--p-title);}
+    .player .scrub{display:flex;align-items:center;gap:8px;margin-top:9px;}
+    .player .ptrack{flex:1;height:3px;border-radius:2px;background:var(--p-track);position:relative;}
+    .player .pfill{width:0;height:100%;background:var(--clay);border-radius:2px;}
+    .player .knob{position:absolute;left:0;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--p-title);}
+    .player .ptime{font:500 10px/1 var(--mono);color:var(--p-muted);flex:0 0 auto;}
+    .player .ptrack.live{cursor:pointer;height:5px;}
+    .player .ptrack.live .knob{width:11px;height:11px;}
+
+    @media (min-width:720px){
+      body{padding:40px 0;}
+      .screen{max-width:1100px;margin:0 auto;min-height:auto;border-radius:18px;box-shadow:var(--sh-card);overflow:hidden;}
+      .topbar{display:flex;}
+      .tim-wrap{padding:56px;}
+      .tim-h1{font-size:42px;line-height:1.06;}
+      .tim-oneliner{font-size:17px;}
+      .tim-prose p,.tim-prose li{font-size:17px;}
+      .section-h,.pr-title{font-size:21px;}
+    }
+  </style>
+</head>
+<body>
+  <main class="screen">
+    <div class="topbar">
+      <div class="wordmark">One Week Wuji</div>
+      <div class="dayof">For Tim</div>
+    </div>
+
+    <div class="tim-wrap">
+      <div class="eyebrow clay">For Tim</div>
+      <h1 class="tim-h1">Feet, Calves &amp; Standing</h1>
+      <p class="tim-oneliner">A standing practice, a foot exploration, and a way to use them.</p>
+
+      <div class="tim-prose">
+        <p>Hey Tim, in our session on Tuesday your calves were really grumpy. I think we've talked about it before, but I know that one well. As recently as 2022 I couldn't do standing practice for more than ~3 min because of it.</p>
+        <p>What turned it around for me was learning to coordinate the <em>intrinsic</em> muscles of the foot — the small muscles inside the foot itself — and to differentiate them from the <em>extrinsic</em> muscles (the bigger ones running down from the lower leg). TLDR When the foot does its own job, the calves stop overworking to hold you up. The exploration below is in a Feldenkrais-style, and it's a big part of how I got my standing back.</p>
+      </div>
+
+      <hr class="tim-hr">
+
+      <div class="tim-prose" style="margin-top:30px">
+        <h2 class="section-h">How to use this</h2>
+        <p>If you want to build real capacity in standing, here's what I'd suggest:</p>
+        <ul>
+          <li>Set aside about <strong>10 minutes a day</strong> for standing practice — the guided standing audio below, or self-guided. Take frequent breaks to let the activated muscles recover :)</li>
+          <li><strong>Twice a week,</strong> swap the standing out for the foot exploration instead.</li>
+          <li>if you're feeling ambitious, <strong>Stack them:</strong> do the ~12½-minute foot exploration first, then stand afterward. Stacking them would likely make the benefit most obvious.</li>
+        </ul>
+        <p>Then let me know how your calves feel.</p>
+      </div>
+
+      <div class="tim-practice">
+        <div class="eyebrow clay">Practice 1 · Daily standing</div>
+        <div class="pr-title">The Whole Map</div>
+        <p class="pr-oneliner">11:55 · a guided head-to-toe pass through the standing practice. This is your daily ten-ish minutes.</p>
+        <div class="player">
+          <audio class="ja" src="../audio/tim-day1-standing.mp3" preload="metadata"></audio>
+          <button class="playbtn" data-play aria-label="Play"><div class="triangle"></div></button>
+          <div class="meta">
+            <div class="now">Guided audio · standing</div>
+            <div class="track-title">Day 1 — The Whole Map</div>
+            <div class="scrub">
+              <div class="ptrack live"><div class="pfill"></div><div class="knob"></div></div>
+              <span class="ptime">0:00 / 11:55</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tim-practice">
+        <div class="eyebrow clay">Practice 2 · The swap-in</div>
+        <div class="pr-title">Foot Exploration</div>
+        <p class="pr-oneliner">12:29 · a slow, Feldenkrais-style exploration to wake up and coordinate the intrinsic muscles of the foot. Swap it in for standing twice a week — or stack it before standing.</p>
+        <div class="player">
+          <audio class="ja" src="../audio/tim-foot-exploration.m4a" preload="metadata"></audio>
+          <button class="playbtn" data-play aria-label="Play"><div class="triangle"></div></button>
+          <div class="meta">
+            <div class="now">Guided audio · foot exploration</div>
+            <div class="track-title">Foot Exploration</div>
+            <div class="scrub">
+              <div class="ptrack live"><div class="pfill"></div><div class="knob"></div></div>
+              <span class="ptime">0:00 / 12:29</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tim-closing">
+        Give it a week or so and tell me how your calves are doing — especially whether the standing discomfort shifts at all. We can adjust from there.
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const fmtTime = (s) => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
+    const PLAY = '<div class="triangle"></div>';
+    const PAUSE = '<div class="bars"><i></i><i></i></div>';
+    let current = null;
+
+    document.querySelectorAll(".player").forEach((p) => {
+      const audio = p.querySelector("audio.ja");
+      const btn   = p.querySelector("[data-play]");
+      const fill  = p.querySelector(".pfill");
+      const knob  = p.querySelector(".knob");
+      const ptime = p.querySelector(".ptime");
+      const track = p.querySelector(".ptrack.live");
+
+      const paint = () => {
+        const d = audio.duration || 0;
+        const pct = d ? (audio.currentTime / d) * 100 : 0;
+        fill.style.width = pct + "%";
+        knob.style.left  = pct + "%";
+        ptime.textContent = fmtTime(audio.currentTime) + " / " + fmtTime(d);
+      };
+      audio.addEventListener("loadedmetadata", paint);
+      audio.addEventListener("timeupdate", paint);
+      audio.addEventListener("ended", () => { btn.innerHTML = PLAY; current = null; });
+
+      btn.addEventListener("click", () => {
+        if (audio.paused) {
+          if (current && current !== audio) {
+            current.pause();
+            current.closest(".player").querySelector("[data-play]").innerHTML = PLAY;
+          }
+          audio.play();
+          btn.innerHTML = PAUSE;
+          current = audio;
+        } else {
+          audio.pause();
+          btn.innerHTML = PLAY;
+          current = null;
+        }
+      });
+
+      track.addEventListener("click", (e) => {
+        const r = track.getBoundingClientRect();
+        const ratio = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        if (audio.duration) audio.currentTime = ratio * audio.duration;
+      });
+    });
+  </script>
+</body>
+</html>
